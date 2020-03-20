@@ -1,6 +1,6 @@
 // Parameters
-let BMIList = [];
-let BMIrecord = {
+var BMIList = [];
+var BMIrecord = {
     "bmi": "",
     "weight": "",
     "height": "",
@@ -9,7 +9,7 @@ let BMIrecord = {
     "time": "",
 };
 document.querySelector(".wrap").style.width = window.innerWidth + "px";
-let storeList = localStorage.getItem("BMIRecord") || undefined;
+var storeList = localStorage.getItem("BMIRecord") || undefined;
 // Add format to Date
 // Resource : https://www.cnblogs.com/tugenhua0707/p/3776808.html
 Date.prototype.format = function (fmt) {
@@ -27,7 +27,7 @@ Date.prototype.format = function (fmt) {
     }
     for (var k in o) {
         if (new RegExp("(" + k + ")").test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         }
     }
     return fmt;
@@ -39,23 +39,23 @@ function updatePageView(headerWidth, mainWidth, footerWidth){
 }
 // Display a card of record
 function displayOfRecord(record) {
-    let liNode = document.createElement("LI"); // create a LI
-    let labelNode = document.createElement("DIV"); // create a DIV
+    var liNode = document.createElement("LI"); // create a LI
+    var labelNode = document.createElement("DIV"); // create a DIV
     labelNode.setAttribute("class", "label" + " " + record.result[0]);
     liNode.appendChild(labelNode);
-    let resultNode = document.createElement("H2");
+    var resultNode = document.createElement("H2");
     resultNode.textContent = record.result[1];
     liNode.appendChild(resultNode);
     for (var j = 0; j < 3; j++) {
         //console.log("record:", Object.keys(record)[j], Object.values(record)[j]);
-        let itemNode = document.createElement("H3");
+        var itemNode = document.createElement("H3");
         itemNode.textContent = Object.keys(record)[j];
-        let dataNode = document.createElement("H4");
+        var dataNode = document.createElement("H4");
         dataNode.textContent = Object.values(record)[j][0] + Object.values(record)[j][1];
         liNode.appendChild(itemNode);
         liNode.appendChild(dataNode);
     }
-    let timeNode = document.createElement("P");
+    var timeNode = document.createElement("P");
     timeNode.textContent = record.date + "\n" + record.time;
     liNode.appendChild(timeNode);
     return liNode;
@@ -63,7 +63,7 @@ function displayOfRecord(record) {
 }
 // Display a list of records
 function displayOfList(BMIList) {
-    let ulList = document.querySelector(".bmilist");
+    var ulList = document.querySelector(".bmilist");
     while (ulList.firstChild) {
         ulList.removeChild(ulList.firstChild);
     }
@@ -75,15 +75,15 @@ function displayOfList(BMIList) {
 
 function displayOfResult(data) {
     // create element of result
-    let viewNode = document.createElement("DIV");
+    var viewNode = document.createElement("DIV");
     viewNode.setAttribute("class", "resetbutton" + " " + data.result[0]);
-    let bmiNode = document.createElement("H1");
+    var bmiNode = document.createElement("H1");
     bmiNode.textContent = data.bmi[0];
-    let bmiTagNode = document.createElement("H2");
+    var bmiTagNode = document.createElement("H2");
     bmiTagNode.textContent = "BMI";
-    let setButtonNode = document.createElement("BUTTON");
+    var setButtonNode = document.createElement("BUTTON");
     setButtonNode.setAttribute("id", "set");
-    let bmiResultNode = document.createElement("DIV");
+    var bmiResultNode = document.createElement("DIV");
     bmiResultNode.setAttribute("class", "reset" + " " + data.result[0]);
     bmiResultNode.textContent = data.result[1];
     // chain
@@ -91,7 +91,7 @@ function displayOfResult(data) {
     viewNode.appendChild(bmiTagNode);
     viewNode.appendChild(setButtonNode);
     // clear nodes of change class
-    let fatherNode = document.querySelector(".change");
+    var fatherNode = document.querySelector(".change");
     while (fatherNode.firstChild) {
         fatherNode.removeChild(fatherNode.firstChild);
     }
@@ -102,13 +102,13 @@ function displayOfResult(data) {
 }
 // Event
 function updateBMIList() {
-    let resultButton = document.querySelector(".resultbutton");
+    var resultButton = document.querySelector(".resultbutton");
     resultButton.addEventListener("click", function () {
         // Add data and calculate
-        let usrHeight = document.getElementById("height").value;
-        let usrWeight = document.getElementById("weight").value;
-        let bmi = (usrWeight / Math.pow(usrHeight / 100, 2)).toFixed(2);
-        let usrResult = "";
+        var usrHeight = document.getElementById("height").value;
+        var usrWeight = document.getElementById("weight").value;
+        var bmi = (usrWeight / Math.pow(usrHeight / 100, 2)).toFixed(2);
+        var usrResult = "";
         if (bmi <= 15) {
             usrResult = ["severeThinness", "重度過輕"];   // 1重度過輕
         } else if (bmi > 15 && bmi <= 16) {
@@ -126,9 +126,9 @@ function updateBMIList() {
         } else if (bmi > 40) {
             usrResult = ["obeseClass3", "極度過重"];      // 極度過重
         }
-        let currentTime = new Date();
-        let usrDate = currentTime.format("MM-dd-yyyy");
-        let usrTime = currentTime.format("hh:mm:ss");
+        var currentTime = new Date();
+        var usrDate = currentTime.format("MM-dd-yyyy");
+        var usrTime = currentTime.format("hh:mm:ss");
         BMIrecord = {
             "bmi": [bmi, ""],
             "weight": [usrWeight, "kg"],
@@ -149,14 +149,14 @@ function updateBMIList() {
     }, false);
 }
 function updateReset(){
-    let setButton = document.getElementById("set");
+    var setButton = document.getElementById("set");
     // set reset event listener
     setButton.addEventListener("click", function () {
-        let fatherNode = document.querySelector(".change");
+        var fatherNode = document.querySelector(".change");
         while (fatherNode.firstChild) {
             fatherNode.removeChild(fatherNode.firstChild);
         }
-        let resultButton = document.createElement("BUTTON");
+        var resultButton = document.createElement("BUTTON");
         resultButton.textContent = "看結果";
         resultButton.setAttribute("class", "resultbutton");
         fatherNode.appendChild(resultButton);
@@ -167,7 +167,7 @@ function updateReset(){
 // Save data to local storage
 function updateLocalStorage(storeList){
     localStorage.clear();
-    let updateList = JSON.stringify(storeList);
+    var updateList = JSON.stringify(storeList);
     localStorage.setItem("BMIRecord", updateList);
 }
 
@@ -182,7 +182,7 @@ window.onresize = function () {
     this.updatePageView(750, 700, 55);
 };
 if(storeList){
-    let loadList = JSON.parse(storeList);
+    var loadList = JSON.parse(storeList);
     BMIList = loadList;
     displayOfList(BMIList);
     updateBMIList();
